@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>祝福弹窗雨</title>
+<style>
+  .popup {
+    position: fixed;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background: rgba(255, 255, 0, 0.8);
+    font-weight: bold;
+    color: #602060;
+    box-shadow: 0 0 10px #aaa;
+    animation: fadeout 2s forwards;
+  }
+  @keyframes fadeout {
+    0% { opacity: 1; transform: scale(1); }
+    80% { opacity: 1; }
+    100% { opacity: 0; transform: scale(0.8); }
+  }
+  /* ❤️ 中央心形 */
+  .heart {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 180px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle at 30% 30%, #ff7eb9 20%, #ff4d6d 80%);
+    clip-path: path("M100 30 C100 -20, 200 -20, 200 60 C200 130, 100 180, 100 180 C100 180, 0 130, 0 60 C0 -20, 100 -20, 100 30 Z");
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    text-align: center;
+    font-size: 18px;
+    box-shadow: 0 0 30px rgba(255, 100, 150, 0.6);
+  }
+  .center-image {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 250px;  /* 可调整大小 */
+    height: 250px;
+    transform: translate(-50%, -50%);
+    background-image: url('helloKitty.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    text-align: center;
+    font-size: 18px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+    pointer-events: none; /* 让弹窗不会挡住点击 */
+  }
+
+</style>
+</head>
+<body>
+  <!-- ❤️ 中央心形祝福 -->
+  <div class="center-image" id="heart">To 子润小朋友 💖<br>永远幸福快乐！</div>
+<script>
+const messages = [
+  "祝你天天开心！", "好运常伴！", "健康平安！",
+  "梦想成真！", "财源滚滚！", "笑口常开！",
+  "心想事成！", "万事顺意！", "青春永驻！"
+];
+// 柔和颜色列表（可自行添加）
+const colors = [
+  "rgba(255, 182, 193, 0.85)", // 粉色
+  "rgba(173, 216, 230, 0.85)", // 淡蓝
+  "rgba(144, 238, 144, 0.85)", // 浅绿
+  "rgba(255, 239, 170, 0.85)", // 浅黄
+  "rgba(221, 160, 221, 0.85)", // 淡紫
+  "rgba(255, 218, 185, 0.85)"  // 桃色
+];
+
+function createPopup() {
+  const div = document.createElement('div');
+  div.className = 'popup';
+  div.textContent = messages[Math.floor(Math.random() * messages.length)];
+  div.style.background = colors[Math.floor(Math.random() * colors.length)];
+  document.body.appendChild(div);
+
+  const x = Math.random() * (window.innerWidth - 200);
+  const y = Math.random() * (window.innerHeight - 100);
+  div.style.left = x + 'px';
+  div.style.top = y + 'px';
+
+  setTimeout(() => div.remove(), 2000);
+}
+
+function startPopups(count = 50, interval = 300) {
+  let i = 0;
+  const timer = setInterval(() => {
+    createPopup();
+    i++;
+    if (i >= count) clearInterval(timer);
+  }, interval);
+}
+
+startPopups();
+</script>
+</body>
+</html>

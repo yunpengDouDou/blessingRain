@@ -16,93 +16,59 @@
 
   .popup {
     position: fixed;
-    padding: 20px 30px;   /* 弹窗稍大 */
+    padding: 20px 30px;
     display: flex;
-    align-items: center;      /* 垂直居中 */
-    justify-content: center;  /* 水平居中 */
+    align-items: center;
+    justify-content: center;
     border-radius: 15px;
-    width: 150px;       /* 固定宽度 */
-    height: 50px;       /* 固定高度 */
+    width: 150px;
+    height: 50px;
     font-weight: 700;
     color: white;
-    font-size: 20px;       /* 字体大一点 */
+    font-size: 20px;
     box-shadow: 0 0 12px rgba(0,0,0,0.3);
+    text-align: center;
   }
 
   .center-text {
     position: fixed;
-    top: 55%;
-    left: 64%;
-    transform: translate(-50%, -50%);
     text-align: center;
     font-size: 26px;
     font-weight: 700;
     color: white;
     text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
     pointer-events: none;
+    left: 50%;
+    top: 42%; /* ✅ 往上提，使其处于心形中心 */
+    transform: translate(-50%, -50%);
   }
 </style>
 </head>
 <body>
-<div class="center-text">
+<div class="center-text" id="centerText">
   To 子润小朋友 💖<br>永远幸福快乐！
 </div>
 
 <script>
 const messages = [
-  "今天的你美到发光✨", 
-  "雅思刷题别累坏自己😎", 
-  "文书写到手抽筋也值得💪", 
-  "口语练得像唱Rap一样溜🎤", 
-  "面试官看到你会笑出来😂", 
-  "早起刷题也能心情美美的🌸", 
-  "录取通知书快到手啦📬", 
-  "GPA稳稳的，别慌📈", 
-  "咖啡加甜甜圈补充元气☕🍩", 
-  "韩国小吃吃到心满意足🍡", 
-  "图书馆做学霸姿势🫡", 
-  "复习的时候也能唱跳两不误💃", 
-  "申请顺利，人生开挂🪄", 
-  "雅思7+，稳稳的👌", 
-  "生活甜得像韩剧🍬", 
-  "作业写完可以快乐蹦跳🎉", 
-  "考试前夜别太慌，深呼吸💨", 
-  "周末也要充电🛋️", 
-  "朋友圈被你的成绩惊到😏", 
-  "每次打卡都离目标近一点📌", 
-  "心情像泡泡一样轻盈🫧", 
-  "小幸运每天都在发生🍀", 
-  "刷题刷到忘记烦恼😆", 
-  "文书改到天亮也值得🌙", 
-  "面试表现像偶像剧女主💫", 
-  "口语流畅得像韩剧台词🎬", 
-  "每天都是彩虹日🌈", 
-  "作业完成，奖励自己一颗糖🍬", 
-  "雅思成绩稳得像小猪猪🐷", 
-  "梦想大学，离你不远🏫", 
-  "每天都在向offer靠近📨", 
-  "笔记漂亮得想拍抖音📸", 
-  "生活甜甜的，像草莓蛋糕🍓", 
-  "刷题也能边听歌边快乐🎧", 
-  "心情好到可以自拍十张📷", 
-  "学习累了也要偷偷笑😌", 
-  "写文书像画画一样有趣🎨", 
-  "每天小目标完成，心情美美哒💖", 
-  "考试顺利，心情像气球🎈", 
-  "图书馆偶遇小幸运🍀", 
-  "生活开挂，但别忘了休息🛌", 
-  "努力了，未来一定甜🥰", 
-  "刷题刷到有成就感💪", 
-  "每天进步一点点✨", 
-  "申请顺利，收获小确幸📝", 
-  "考试没压力，心态稳稳的😎", 
-  "生活像泡泡茶一样可爱🧋", 
-  "雅思口语有趣又流利🎙️", 
-  "文书写得可圈可点💌", 
-  "每天都是小幸运日🎀", 
-  "录取通知书快来敲门📬",
-  "生活开挂模式！", 
-  "快乐循环播放！"
+  "今天的你美到发光✨", "雅思刷题别累坏自己😎", "文书写到手抽筋也值得💪", 
+  "口语练得像唱Rap一样溜🎤", "面试官看到你会笑出来😂", "早起刷题也能心情美美的🌸", 
+  "录取通知书快到手啦📬", "GPA稳稳的，别慌📈", "咖啡加甜甜圈补充元气☕🍩", 
+  "韩国小吃吃到心满意足🍡", "图书馆做学霸姿势🫡", "复习的时候也能唱跳两不误💃", 
+  "申请顺利，人生开挂🪄", "雅思7+，稳稳的👌", "生活甜得像韩剧🍬", 
+  "作业写完可以快乐蹦跳🎉", "考试前夜别太慌，深呼吸💨", "周末也要充电🛋️", 
+  "朋友圈被你的成绩惊到😏", "每次打卡都离目标近一点📌", "心情像泡泡一样轻盈🫧", 
+  "小幸运每天都在发生🍀", "刷题刷到忘记烦恼😆", "文书改到天亮也值得🌙", 
+  "面试表现像偶像剧女主💫", "口语流畅得像韩剧台词🎬", "每天都是彩虹日🌈", 
+  "作业完成，奖励自己一颗糖🍬", "雅思成绩稳得像小猪猪🐷", "梦想大学，离你不远🏫", 
+  "每天都在向offer靠近📨", "笔记漂亮得想拍抖音📸", "生活甜甜的，像草莓蛋糕🍓", 
+  "刷题也能边听歌边快乐🎧", "心情好到可以自拍十张📷", "学习累了也要偷偷笑😌", 
+  "写文书像画画一样有趣🎨", "每天小目标完成，心情美美哒💖", "考试顺利，心情像气球🎈", 
+  "图书馆偶遇小幸运🍀", "生活开挂，但别忘了休息🛌", "努力了，未来一定甜🥰", 
+  "刷题刷到有成就感💪", "每天进步一点点✨", "申请顺利，收获小确幸📝", 
+  "考试没压力，心态稳稳的😎", "生活像泡泡茶一样可爱🧋", "雅思口语有趣又流利🎙️", 
+  "文书写得可圈可点💌", "每天都是小幸运日🎀", "录取通知书快来敲门📬",
+  "生活开挂模式！", "快乐循环播放！"
 ];
 
 const colors = [
@@ -114,24 +80,27 @@ const colors = [
   "rgba(255, 218, 185, 0.85)"
 ];
 
-// 心形公式参数
-const heartScale = 20; // 调大心形尺寸
-const heartOffsetX = window.innerWidth / 2;
-const heartOffsetY = window.innerHeight / 2 - 50;
-const heartPoints = [];
+function generateHeartPoints() {
+  const heartPoints = [];
+  const minSide = Math.min(window.innerWidth, window.innerHeight);
+  const heartScale = minSide / 30; // ✅ 略微放大心形
+  const heartOffsetX = window.innerWidth / 2;
+  const heartOffsetY = window.innerHeight / 2 - minSide / 10; // ✅ 整体往上提一些
 
-// 生成心形路径坐标，步长小一点，点更多
-for (let t = 0; t < Math.PI * 2; t += 0.05) {
-  const x = 16 * Math.pow(Math.sin(t), 3);
-  const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2*Math.cos(3*t) - Math.cos(4*t));
-  // 可加一点随机抖动，让心形更自然
-  const jitterX = (Math.random() - 0.5) * 5;
-  const jitterY = (Math.random() - 0.5) * 5;
-  heartPoints.push({
-    x: heartOffsetX + x * heartScale + jitterX,
-    y: heartOffsetY + y * heartScale + jitterY
-  });
+  for (let t = 0; t < Math.PI * 2; t += 0.05) {
+    const x = 16 * Math.pow(Math.sin(t), 3);
+    const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2*Math.cos(3*t) - Math.cos(4*t));
+    const jitterX = (Math.random() - 0.5) * 5;
+    const jitterY = (Math.random() - 0.5) * 5;
+    heartPoints.push({
+      x: heartOffsetX + x * heartScale + jitterX,
+      y: heartOffsetY + y * heartScale + jitterY
+    });
+  }
+  return heartPoints;
 }
+
+const heartPoints = generateHeartPoints();
 
 function createPopup(msg, color, x, y) {
   const div = document.createElement('div');
@@ -147,16 +116,15 @@ function startHeartPopups() {
   heartPoints.forEach((point, index) => {
     setTimeout(() => {
       let msg, color;
-      // 最后一个点显示指定祝福
       if (index === heartPoints.length - 1) {
-        msg = "梦想大学录取成功！💖"; // 这里改成你想固定显示的祝福
+        msg = "梦想大学录取成功！💖";
         color = "linear-gradient(135deg, #FFDEE9, #B5FFFC)";
       } else {
         msg = messages[Math.floor(Math.random() * messages.length)];
         color = colors[Math.floor(Math.random() * colors.length)];
       }
       createPopup(msg, color, point.x, point.y);
-    }, index * 280); // 弹窗间隔略快
+    }, index * 280);
   });
 }
 

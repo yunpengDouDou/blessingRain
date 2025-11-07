@@ -1,134 +1,158 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
-<meta charset="UTF-8">
-<title>Hello Kitty 大心形祝福弹窗</title>
-<style>
-  body {
-    margin: 0;
-    overflow: hidden;
-    font-family: "Arial", sans-serif;
-    background-image: url('hellokitty.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
+  <meta charset="UTF-8">
+  <title>To 世界上最可爱的人</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: "Arial", sans-serif;
+      background-color: rgba(255, 182, 193, 0.85);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
 
-  .popup {
-    position: fixed;
-    padding: 20px 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 15px;
-    width: 150px;
-    height: 50px;
-    font-weight: 700;
-    color: white;
-    font-size: 20px;
-    box-shadow: 0 0 12px rgba(0,0,0,0.3);
-    text-align: center;
-  }
+    .popup {
+      position: fixed;
+      padding: 20px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 15px;
+      width: 150px;
+      height: 50px;
+      font-weight: 700;
+      color: white;
+      font-size: 18px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      transition: opacity 0.6s ease;
+      opacity: 0;
+      animation: fadeIn 0.8s forwards;
+    }
 
-  .center-text {
-    position: fixed;
-    text-align: center;
-    font-size: 26px;
-    font-weight: 700;
-    color: white;
-    text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
-    pointer-events: none;
-    left: 50%;
-    top: 42%; /* ✅ 往上提，使其处于心形中心 */
-    transform: translate(-50%, -50%);
-  }
-</style>
-</head>
-<body>
-<div class="center-text" id="centerText">
-  To 子润小朋友 💖<br>永远幸福快乐！
-</div>
-
-<script>
-const messages = [
-  "今天的你美到发光✨", "雅思刷题别累坏自己😎", "文书写到手抽筋也值得💪", 
-  "口语练得像唱Rap一样溜🎤", "面试官看到你会笑出来😂", "早起刷题也能心情美美的🌸", 
-  "录取通知书快到手啦📬", "GPA稳稳的，别慌📈", "咖啡加甜甜圈补充元气☕🍩", 
-  "韩国小吃吃到心满意足🍡", "图书馆做学霸姿势🫡", "复习的时候也能唱跳两不误💃", 
-  "申请顺利，人生开挂🪄", "雅思7+，稳稳的👌", "生活甜得像韩剧🍬", 
-  "作业写完可以快乐蹦跳🎉", "考试前夜别太慌，深呼吸💨", "周末也要充电🛋️", 
-  "朋友圈被你的成绩惊到😏", "每次打卡都离目标近一点📌", "心情像泡泡一样轻盈🫧", 
-  "小幸运每天都在发生🍀", "刷题刷到忘记烦恼😆", "文书改到天亮也值得🌙", 
-  "面试表现像偶像剧女主💫", "口语流畅得像韩剧台词🎬", "每天都是彩虹日🌈", 
-  "作业完成，奖励自己一颗糖🍬", "雅思成绩稳得像小猪猪🐷", "梦想大学，离你不远🏫", 
-  "每天都在向offer靠近📨", "笔记漂亮得想拍抖音📸", "生活甜甜的，像草莓蛋糕🍓", 
-  "刷题也能边听歌边快乐🎧", "心情好到可以自拍十张📷", "学习累了也要偷偷笑😌", 
-  "写文书像画画一样有趣🎨", "每天小目标完成，心情美美哒💖", "考试顺利，心情像气球🎈", 
-  "图书馆偶遇小幸运🍀", "生活开挂，但别忘了休息🛌", "努力了，未来一定甜🥰", 
-  "刷题刷到有成就感💪", "每天进步一点点✨", "申请顺利，收获小确幸📝", 
-  "考试没压力，心态稳稳的😎", "生活像泡泡茶一样可爱🧋", "雅思口语有趣又流利🎙️", 
-  "文书写得可圈可点💌", "每天都是小幸运日🎀", "录取通知书快来敲门📬",
-  "生活开挂模式！", "快乐循环播放！"
-];
-
-const colors = [
-  "rgba(255, 182, 193, 0.85)",
-  "rgba(173, 216, 230, 0.85)",
-  "rgba(144, 238, 144, 0.85)",
-  "rgba(255, 239, 170, 0.85)",
-  "rgba(221, 160, 221, 0.85)",
-  "rgba(255, 218, 185, 0.85)"
-];
-
-function generateHeartPoints() {
-  const heartPoints = [];
-  const minSide = Math.min(window.innerWidth, window.innerHeight);
-  const heartScale = minSide / 30; // ✅ 略微放大心形
-  const heartOffsetX = window.innerWidth / 2;
-  const heartOffsetY = window.innerHeight / 2 - minSide / 10; // ✅ 整体往上提一些
-
-  for (let t = 0; t < Math.PI * 2; t += 0.05) {
-    const x = 16 * Math.pow(Math.sin(t), 3);
-    const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2*Math.cos(3*t) - Math.cos(4*t));
-    const jitterX = (Math.random() - 0.5) * 5;
-    const jitterY = (Math.random() - 0.5) * 5;
-    heartPoints.push({
-      x: heartOffsetX + x * heartScale + jitterX,
-      y: heartOffsetY + y * heartScale + jitterY
-    });
-  }
-  return heartPoints;
-}
-
-const heartPoints = generateHeartPoints();
-
-function createPopup(msg, color, x, y) {
-  const div = document.createElement('div');
-  div.className = 'popup';
-  div.textContent = msg;
-  div.style.background = color;
-  div.style.left = x + 'px';
-  div.style.top = y + 'px';
-  document.body.appendChild(div);
-}
-
-function startHeartPopups() {
-  heartPoints.forEach((point, index) => {
-    setTimeout(() => {
-      let msg, color;
-      if (index === heartPoints.length - 1) {
-        msg = "梦想大学录取成功！💖";
-        color = "linear-gradient(135deg, #FFDEE9, #B5FFFC)";
-      } else {
-        msg = messages[Math.floor(Math.random() * messages.length)];
-        color = colors[Math.floor(Math.random() * colors.length)];
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.5);
       }
-      createPopup(msg, color, point.x, point.y);
-    }, index * 280);
-  });
-}
 
-startHeartPopups();
-</script>
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .center-text {
+      position: fixed;
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+      color: white;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      /* ✅ 始终在最上层 */
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="center-text" id="centerText">
+    To 子润小朋友 💖<br>永远幸福快乐！
+  </div>
+
+  <script>
+    const messages = [
+      "今天的你美到发光✨", "雅思刷题别累坏自己😎", "前路漫漫亦灿灿", "前路漫漫亦灿灿",
+      "口语练得像唱Rap一样溜🎤", "面试官看到你会笑出来😂", "早九也能心情美美的🌸",
+      "录取通知书快到手啦📬", "GPA稳稳的，别慌📈", "抹茶拿铁补充元气☕🍩",
+      "韩国美食吃到心满意足🍡", "图书馆做学霸姿势🫡", "复习的时候也能唱跳两不误💃",
+      "申请顺利，人生开挂🪄", "雅思7+，稳稳的👌", "生活甜得像韩剧🍬",
+      "作业写完可以快乐蹦跳🎉", "考试前夜别太慌，深呼吸💨", "周末也要充电🛋️",
+      "朋友圈被你的成绩惊到😏", "每次打卡都离目标近一点📌", "心情像泡泡一样轻盈🫧",
+      "小幸运每天都在发生🍀", "刷题刷到忘记烦恼😆",
+      "面试表现像职场剧女主💫", "口语流畅得像韩剧台词🎬", "每天都是彩虹日🌈",
+      "作业完成，奖励自己一块蛋糕🍰", "每天都是完美的一天", "凡事发生皆有利于你", "梦想大学，离你不远🏫", "每天都在向offer靠近📨",
+      "学习累了也要偷偷笑😌", "努力了，未来一定甜🥰", "考试顺利，心情像气球🎈",
+      "生活像hello kitty一样可爱🐱", "文书写得可圈可点💌",
+      "每天都是小幸运日🎀", "录取通知书快来敲门📬", "生活开挂模式！", "快乐循环播放！"
+    ];
+
+    const colors = [
+      "rgba(255, 182, 193, 0.85)",
+      "rgba(173, 216, 230, 0.85)",
+      "rgba(144, 238, 144, 0.85)",
+      "rgba(255, 239, 170, 0.85)",
+      "rgba(221, 160, 221, 0.85)",
+      "rgba(255, 218, 185, 0.85)"
+    ];
+
+    // ✅ 生成心形路径（稍微缩小 + 居中）
+    function generateHeartPoints() {
+      const heartPoints = [];
+      const minSide = Math.min(window.innerWidth, window.innerHeight);
+      const heartScale = minSide / 38; // 🔹比原来更小一点
+      const heartOffsetX = window.innerWidth / 2 - minSide / 10;
+      const heartOffsetY = window.innerHeight / 2 - minSide / 10; // 上移
+      for (let t = 0; t < Math.PI * 2; t += 0.05) {
+        const x = 16 * Math.pow(Math.sin(t), 3);
+        const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+        const jitterX = (Math.random() - 0.5) * 4;
+        const jitterY = (Math.random() - 0.5) * 4;
+        heartPoints.push({
+          x: heartOffsetX + x * heartScale + jitterX,
+          y: heartOffsetY + y * heartScale + jitterY
+        });
+      }
+      return { heartPoints, centerX: heartOffsetX, centerY: heartOffsetY };
+    }
+
+    function createPopup(msg, color, x, y) {
+      const div = document.createElement('div');
+      div.className = 'popup';
+      div.textContent = msg;
+      div.style.background = color;
+      div.style.left = x + 'px';
+      div.style.top = y + 'px';
+      document.body.appendChild(div);
+    }
+
+    function startHeartPopups() {
+      const { heartPoints, centerX, centerY } = generateHeartPoints();
+      const delay = 700;
+
+      heartPoints.forEach((point, index) => {
+        setTimeout(() => {
+          const msg = (index === heartPoints.length - 1)
+            ? "梦想大学录取成功！💖"
+            : messages[Math.floor(Math.random() * messages.length)];
+          const color = colors[Math.floor(Math.random() * colors.length)];
+          createPopup(msg, color, point.x, point.y);
+        }, index * delay);
+      });
+
+      // ✅ 最后再显示中心祝福文字
+      setTimeout(() => {
+        const centerText = document.getElementById("centerText");
+        centerText.style.left = `${centerX + 120}px`;
+        centerText.style.top = `${centerY + 80}px`;
+        centerText.style.opacity = 1;
+      }, heartPoints.length * delay + 800);
+    }
+
+    startHeartPopups();
+
+    // ✅ 窗口尺寸变化时重新布局
+    window.addEventListener('resize', () => location.reload());
+  </script>
 </body>
+
 </html>
